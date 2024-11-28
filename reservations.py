@@ -1,7 +1,9 @@
 import streamlit as st
 from sqlalchemy import text 
 
-st.title("Reservations")
+st.title("State Spaces :material/location_city:")
+
+st.header("Reservations")
 conn = st.connection("postgresql", type="sql")
 
 if st.button("Create Reservation"):
@@ -26,4 +28,5 @@ if st.button("Add User"):
         session.commit()
     st.success(f"User {name} added successfully!")
 
-
+if st.button("Back"):
+    st.switch_page("select_venue.py")
