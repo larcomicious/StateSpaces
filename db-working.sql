@@ -20,6 +20,7 @@ CREATE TABLE agent (
 CREATE TABLE venue (
     venue_id SERIAL PRIMARY KEY NOT NULL,
     venue_name VARCHAR(40) NOT NULL,
+    floor VARCHAR(25) NOT NULL,
     floor_area INT NOT NULL,
     capacity INT NOT NULL,
     renovating BOOLEAN NOT NULL,
@@ -27,15 +28,6 @@ CREATE TABLE venue (
     agent_id INT, 
     FOREIGN KEY(building_id) REFERENCES building(building_id),
     FOREIGN KEY(agent_id) REFERENCES agent(agent_id)
-);
-
-CREATE TABLE floor (
-    building_id INT NOT NULL,
-    venue_id INT NOT NULL,
-    floor VARCHAR(40) NOT NULL,
-    PRIMARY KEY(building_id, venue_id),
-    FOREIGN KEY(building_id) REFERENCES building(building_id),
-    FOREIGN KEY(venue_id) REFERENCES venue(venue_id)
 );
 
 CREATE TABLE venue_type (
@@ -102,13 +94,13 @@ VALUES
     (4, 'Emily Davis', '1995-07-19', 6543210987),
     (5, 'Sarah Wilson', '1988-12-10', 5432109876);
 
-INSERT INTO venue (venue_id, venue_name, floor_area, capacity, renovating, building_id, agent_id)
+INSERT INTO venue (venue_id, venue_name, floor, floor_area, capacity, renovating, building_id, agent_id)
 VALUES
-    (1, 'Grand Ballroom', 1000, 500, FALSE, 1, 1),
-    (2, 'Conference Room A', 200, 50, TRUE, 1, 2),
-    (3, 'Outdoor Garden', 1500, 300, FALSE, 2, 3),
-    (4, 'Theater Hall', 800, 400, FALSE, 2, 4),
-    (5, 'Meeting Room B', 100, 20, FALSE, 3, 2);
+    (1, 'Grand Ballroom', 'Ground Floor', 1000, 500, FALSE, 1, 1),
+    (2, 'Conference Room A', 'Second Floor', 200, 50, TRUE, 1, 2),
+    (3, 'Outdoor Garden', 'Rooftop', 1500, 300, FALSE, 2, 3),
+    (4, 'Theater Hall', 'First Floor', 800, 400, FALSE, 2, 4),
+    (5, 'Meeting Room B', 'Basement', 100, 20, FALSE, 3, 2);
 
 INSERT INTO reservation (reservation_id, reserved_from, reserved_to, number_of_participants, venue_id, customer_id)
 VALUES
@@ -118,13 +110,6 @@ VALUES
     (4, '2024-12-07 14:00:00', '2024-12-08 22:00:00', 150, 4, 4),
     (5, '2024-12-09 11:00:00', '2024-12-10 15:00:00', 75, 5, 5);
 
-INSERT INTO floor (building_id, venue_id, floor)
-VALUES
-    (1, 1, 'Ground Floor'),
-    (1, 2, 'Second Floor'),
-    (2, 3, 'Rooftop'),
-    (2, 4, 'First Floor'),
-    (3, 5, 'Basement');
 
 INSERT INTO venue_type (venue_id, venue_type)
 VALUES

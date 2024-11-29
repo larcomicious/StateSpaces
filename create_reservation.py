@@ -1,7 +1,10 @@
 import streamlit as st
 from sqlalchemy import text
 
-st.title("State Spaces :material/location_city:")
+col1, col2 = st.columns([0.8,0.2])
+col1.title("State Spaces :material/location_city:")
+if col2.button("Change User"):
+    st.switch_page("change_user.py")
 
 st.header("Make Reservation")
 conn = st.connection("postgresql", type="sql")
@@ -25,12 +28,12 @@ with venue_cont:
 # customer details
 st.write("### Customer Details")
 customer_cont = st.container(border=True)
-with customer_cont:
-    # col1, col2 = st.columns([0.7,0.3])
-    # customer_name = col1.text_input("Name")
-    # birth_date = col2.date_input("Birth Date")
-    # contact_no = st.text_input("Contact No.")
-    customer_id = st.text_input("Customer ID")
+# with customer_cont:
+#     # col1, col2 = st.columns([0.7,0.3])
+#     # customer_name = col1.text_input("Name")
+#     # birth_date = col2.date_input("Birth Date")
+#     # contact_no = st.text_input("Contact No.")
+#     customer_id = st.text_input("Customer ID")
 
 # reserv details
 st.write("### Reservation Details")
