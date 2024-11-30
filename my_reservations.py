@@ -25,8 +25,8 @@ with customer_cont:
     col2.metric(label="Birth Date",value=birth_date)
     col1.metric(label="Contact No.",value=contact_no)
 
-resevations_query = f"SELECT v.venue_name, vt.venue_type, CONCAT(v.floor, ', ', b.street, ' ', b.district, ' ', b.city), r.number_of_participants, r.reserved_from, r.reserved_to FROM building b JOIN venue v ON b.building_id = v.building_id JOIN amenity a ON v.venue_id = a.venue_id JOIN reservation r ON v.venue_id = r.venue_id JOIN customer c ON c.customer_id = r.customer_id JOIN venue_type vt ON vt.venue_id = v.venue_id WHERE c.customer_id = {customer_id};"
-reservations_info = conn.query(resevations_query)
+resevations_query = f"SELECT DISTINCT r.reservation_id, v.venue_name, vt.venue_type, CONCAT(v.floor, ', ', b.street, ' ', b.district, ' ', b.city), r.number_of_participants, r.reserved_from, r.reserved_to FROM building b JOIN venue v ON b.building_id = v.building_id JOIN amenity a ON v.venue_id = a.venue_id JOIN reservation r ON v.venue_id = r.venue_id JOIN customer c ON c.customer_id = r.customer_id JOIN venue_type vt ON vt.venue_id = v.venue_id WHERE c.customer_id = {customer_id} ORDER BY r.reservation_id DESC;"
+reservations_info = conn.query(resevations_query, ttl="5s")
 
 st.write("### Reservations")
 for i, row in reservations_info.iterrows(): # for column, row
@@ -47,12 +47,6 @@ for i, row in reservations_info.iterrows(): # for column, row
         col5.write(str(reserved_from))
         col6.write(str(reserved_to))
 
-        # col1.metric(label="Venue Name", value=venue_name)
-        # col2.metric(label="Venue Type", value=venue_type)
-        # col3.metric(label="Address", value=str(address))
-        # col4.metric(label="No. Of Participants", value=str(number_of_participants))
-        # col5.metric(label="Reserved From", value=str(reserved_from))
-        # col6.metric(label="Reserved To", value=str(reserved_to))
 
 if st.button("Back to Venues"):
     st.switch_page("select_venue.py")
